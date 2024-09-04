@@ -29,4 +29,22 @@ const getList = async () => {
     }
 }
 
-module.exports = { create, getList};
+const update = async (roleID, roleData) => {
+    try {
+        const updatedRole = await repositories.update(roleID, roleData);
+        return updatedRole;
+    } catch (error) {
+        throw new Error('Failed to update role')
+    }
+}
+
+const remove = async (roleID) => {
+    try {
+        const deletedRole = await repositories.remove(roleID);
+        return deletedRole;
+    } catch (error) {
+        throw new Error("Failed to delete role");
+    }
+}
+
+module.exports = { create, getList, update, remove};

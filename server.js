@@ -13,7 +13,8 @@ connectDB();
 app.use(initializePassport());
 app.use('/digistar', router);
 
-app.use((err, req, res) => {
+// Error-handling middleware
+app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });

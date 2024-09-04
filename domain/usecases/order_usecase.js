@@ -38,4 +38,24 @@ const getOneByOrderId = async (orderId) => {
     }
 }
 
-module.exports = { create, getList, getOneByOrderId };
+// Function to update an order by order id
+const update = async (orderId, orderData) => {
+    try {
+        const updatedOrder = await orderRepository.update(orderId, orderData);
+        return updatedOrder;
+    } catch (error) {
+        throw new Error('Failed to update order');
+    }
+}
+
+// Function to remove an order by order id
+const remove = async (orderId) => {
+    try {
+        const deletedOrder = await orderRepository.remove(orderId);
+        return deletedOrder;
+    } catch (error) {
+        throw new Error('Failed to delete order');
+    }
+}
+
+module.exports = { create, getList, getOneByOrderId, update, remove };
