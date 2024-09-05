@@ -3,7 +3,9 @@ const orderUsecase = require('../domain/usecases/order_usecase');
 // Handler to create a new order
 async function create(req, res) {
   try {
+          console.log(req);
     const orderData = req.body;
+    orderData["created_by"] = req.user.userId;
     const createdOrder = await orderUsecase.create(orderData);
     res.status(201).json({ message: "Order created successfully", orderId: createdOrder.order_id });
   } catch (error) {

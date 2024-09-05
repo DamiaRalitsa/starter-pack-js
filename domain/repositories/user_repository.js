@@ -1,6 +1,7 @@
 // npm install mongoose uuid
 
 const User = require('../models/user_model');
+const bcrypt = require('bcrypt');
 
 // Function to find a user by their ID
 async function findOneByUserId(userId) {
@@ -65,8 +66,36 @@ async function updateOne(userId, updateData) {
     // Exclude the _id field from the update data
     delete updateData._id;
 
+    // Allowed fields for update
+    const allowedFields = ['username', 'email', 'password', 'user_id'];
+
+    // Check for unexpected fields
+    const updateFields = Object.keys(updateData);
+    const invalidFields = updateFields.filter(field => !allowedFields.includes(field));
+    if (invalidFields.length > 0) {
+      throw new Error(`Can only update username, email, or password. Invalid Fields: ${invalidFields.join(', ')}`);
+    }
+
+    // Filter updateData to include only username and password
+    const { username, email, password } = updateData;
+    const updatedFields = {};
+
+    if (username) {
+      updatedFields.username = username;
+    }
+
+    if (email) {
+      updatedFields.email = email;
+    }
+
+    if (password) {
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds
+      updatedFields.password = hashedPassword;
+    }
+
     // Update the user's data
-    Object.assign(existingUser, updateData);
+    Object.assign(existingUser, updatedFields);
 
     // Set the updated_at field to the current time
     existingUser.updated_at = new Date();

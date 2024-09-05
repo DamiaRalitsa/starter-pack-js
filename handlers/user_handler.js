@@ -1,5 +1,4 @@
 const userUsecase = require('../domain/usecases/user_usecase');
-const roleUsecase = require('../domain/usecases/role_usecase');
 
 // Handler to find a user by their ID
 async function getOneByUserId(req, res) {
