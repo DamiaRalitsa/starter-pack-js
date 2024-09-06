@@ -121,10 +121,14 @@ async function register(user) {
     // If user role exist then get the role_id
     if (user.role) {
       const dataRole = await roleRepository.getOneByName(user.role);
-      const roleId = dataRole.role_id
-      user.role = roleId;
+      if (dataRole.role_id == null) {
+        user.role = null;
+      } else {
+        const roleId = dataRole.role_id
+        user.role = roleId;
+      }
     }
-
+    
     // Save the user to the database
     const savedUser = await repository.create(user);
     return savedUser;
@@ -137,7 +141,15 @@ async function register(user) {
 // Function to log in a user
 async function login(payload) {
   try {
-    const checkUser = await repository.findOneByEmail(payload.email);
+    let checkUser;
+    if (payload.email) {
+      checkUser = await repository.findOneByEmail(payload.email);
+    } else if (payload.username) {
+      checkUser = await repository.findOneByUsername(payload.username);
+    } else if (payload.email && payload.username) {
+      throw new Error('Cannot use both email and username');
+    }
+    
     if (!checkUser) {
       throw new Error('Invalid email or password');
     }
@@ -151,7 +163,7 @@ async function login(payload) {
       throw new Error('Invalid email or password');
     }
     const key = process.env.JWT_SECRET; // Use environment variable for the secret key or a default one
-    const token = jwt.sign(user, key, { expiresIn: '30m' }); // Set token expiration to 15 minutes
+    const token = jwt.sign(user, key, { expiresIn: '30m' }); // Set token expiration to 30 minutes
     return token;
   } catch (error) {
     console.error('Error login: ', error);

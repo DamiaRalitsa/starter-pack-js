@@ -51,6 +51,9 @@ async function register(req, res) {
 async function login(req, res) {
   try {
     const { email, password } = req.body;
+    if (email && !email.includes('@')) {
+      return res.status(400).json({ error: 'Bad Request', message: 'Email must contain @' });
+    }
     const token = await userUsecase.login({ email, password });
     res.json({ message: "Success login!", token });
   } catch (error) {

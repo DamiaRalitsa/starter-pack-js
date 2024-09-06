@@ -2,7 +2,7 @@ const loadEnv = require('./config/env');
 loadEnv();
 const express = require("express");
 const connectDB = require('./db/mongodb');
-const { initializePassport } = require('./middlewares/passport-jwt');
+// const { initializePassport } = require('./middlewares/passport-jwt');
 const router = require('./routers/router');
 
 const PORT = process.env.PORT
@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 connectDB();
-app.use(initializePassport());
+// app.use(initializePassport());
 app.use('/digistar', router);
 
 app.use((err, req, res) => {

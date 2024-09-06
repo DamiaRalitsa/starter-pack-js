@@ -1,4 +1,33 @@
 const mongoose = require('mongoose');
+const Customer = require('./customer_model'); // Import the Customer model
+
+const orderItemSchema = new mongoose.Schema({
+    item_id: {
+        type: String,
+        required: true
+    },
+    item_name: {
+        type: String,
+        required: true
+    },
+    item_quantity: {
+        type: Number,
+        required: true
+    },
+    item_price: {
+        type: Number,
+        required: true
+    },
+    item_description: {
+        type: String,
+        required: true
+    },
+    item_size: {
+        type: String,
+        required: true,
+        enum: ['S', 'M', 'L', 'XL', 'XXL']
+    }
+});
 
 const orderSchema = new mongoose.Schema({
     order_id: {
@@ -6,20 +35,21 @@ const orderSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    product_name: {
+    order_name: {
         type: String,
         required: true
     },
-    quantity: {
+    total_price: {
         type: Number,
         required: true
     },
-    price: {
-        type: Number,
-        required: true
-    },
-    status : {
+    status: {
         type: String,
+        required: true
+    },
+    order_items: [orderItemSchema],
+    customer: {
+        type: Customer.schema,
         required: true
     },
     created_by: {
@@ -34,7 +64,7 @@ const orderSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now
-    }
+    },
 });
 
 const Order = mongoose.model('Order', orderSchema);

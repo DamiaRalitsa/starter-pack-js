@@ -22,8 +22,20 @@ async function findOneByEmail(email) {
       const user = await User.findOne({ email: email });
       return user;
   } catch (error) {
-      console.error('Error finding user:', error);
+      console.error('Error finding user by email:', error);
       throw error;
+  }
+}
+
+// Function to find a user by their username
+async function findOneByUsername(username) {
+  try {
+    // Find the user by username
+    const user = await User.findOne({ username: username });
+    return user;
+    } catch (error) {
+    console.error('Error finding user by username:', error);
+    throw error;
   }
 }
 
@@ -109,4 +121,4 @@ async function updateOne(userId, updateData) {
   }
 }
 
-module.exports = { findOneByUserId, findOneByEmail, findAll, create, updateOne };
+module.exports = { findOneByUserId, findOneByEmail, findOneByUsername, findAll, create, updateOne };
