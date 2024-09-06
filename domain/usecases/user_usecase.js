@@ -141,27 +141,32 @@ async function register(user) {
 // Function to log in a user
 async function login(payload) {
   try {
+    if (payload.email && payload.username) {
+      throw new Error('Cannot use both email and username');
+    }
+
     let checkUser;
     if (payload.email) {
       checkUser = await repository.findOneByEmail(payload.email);
     } else if (payload.username) {
       checkUser = await repository.findOneByUsername(payload.username);
-    } else if (payload.email && payload.username) {
-      throw new Error('Cannot use both email and username');
     }
-    
+
     if (!checkUser) {
       throw new Error('Invalid email or password');
     }
+
     const user = {
       userId: checkUser.user_id,
       email: checkUser.email,
       password: checkUser.password
     };
+
     const isValidPassword = await bcrypt.compareSync(payload.password, user.password);
     if (!isValidPassword) {
       throw new Error('Invalid email or password');
     }
+
     const key = process.env.JWT_SECRET; // Use environment variable for the secret key or a default one
     const token = jwt.sign(user, key, { expiresIn: '30m' }); // Set token expiration to 30 minutes
     return token;
