@@ -9,10 +9,11 @@ const create = async (orderData) => {
         const orderId = uuidv4();
         let items = [];
         let total_price = 0;
-        console.log(orderData);
+        
         if (!orderData.order_items || orderData.order_items.length === 0) {
             throw new Error('Order items are required');
         }
+
         orderData.order_items = orderData.order_items.map(item => {
             item.item_id = uuidv4();
 
