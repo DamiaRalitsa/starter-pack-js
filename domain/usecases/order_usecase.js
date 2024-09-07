@@ -31,7 +31,7 @@ const create = async (orderData) => {
             order_name: orderData.order_name,
             quantity: orderData.quantity,
             total_price: total_price,
-            status: orderData.status,
+            status: "new",
             order_items: items,
             customer: orderData.customer,
             created_by: orderData.created_by,
