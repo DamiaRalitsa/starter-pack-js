@@ -62,4 +62,14 @@ const getOneByOrderId = async (orderId) => {
     }
 }
 
-module.exports = { create, getList, getOneByOrderId };
+// Function to delete all orders
+const deleteOrder = async () => {
+    try {
+        const orders = await orderRepository.deleteAll();
+        return orders;
+    } catch (error) {
+        throw new Error('Failed to delete orders: ' + error.message);
+    }
+}
+
+module.exports = { create, getList, getOneByOrderId, deleteOrder };

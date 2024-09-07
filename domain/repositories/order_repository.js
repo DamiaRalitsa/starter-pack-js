@@ -39,4 +39,15 @@ async function findAll() {
   }
 }
 
-module.exports = { create, getOneByOrderId, findAll };
+// Function to delete all orders
+async function deleteAll() {
+  try {
+    const orders = await Order.deleteMany();
+    return orders;
+  } catch (error) {
+    console.error('Error deleting orders:', error);
+    throw error;
+  }
+}
+
+module.exports = { create, getOneByOrderId, findAll, deleteAll };

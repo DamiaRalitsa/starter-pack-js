@@ -39,4 +39,15 @@ async function getOneByOrderId(req, res) {
   }
 }
 
-module.exports = { create, getList, getOneByOrderId };
+// Handler to delete all order
+async function deleteOrder(req, res) {
+  try {
+    const orders = await orderUsecase.deleteOrder();
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error', message: error.message });
+  }
+}
+
+module.exports = { create, getList, getOneByOrderId, deleteOrder };

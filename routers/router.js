@@ -23,5 +23,6 @@ router.get("/role", roleHandler.getList);
 router.post("/order", jwtAuth, orderHandler.create);
 router.get("/order", jwtAuth, orderHandler.getList);
 router.get("/order/:id", jwtAuth, orderHandler.getOneByOrderId);
+router.delete("/order", jwtAuth, orderHandler.deleteOrder);
 
 module.exports = router;
