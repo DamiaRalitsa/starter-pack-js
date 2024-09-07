@@ -15,7 +15,7 @@ const create = async (roleData) => {
         const createdRole = await repositories.create(role);
         return createdRole;
     } catch (error) {
-        throw new Error('Failed to create role');
+        throw new Error('Failed to create role: ' + error.message);
     }
 };
 
@@ -25,7 +25,7 @@ const getList = async () => {
         const roles = await repositories.findAll();
         return roles;
     } catch (error) {
-        throw new Error('Failed to get list of roles');
+        throw new Error('Failed to get list of roles: ' + error.message);
     }
 }
 

@@ -171,7 +171,7 @@ async function login(payload) {
     const token = jwt.sign(user, key, { expiresIn: '30m' }); // Set token expiration to 30 minutes
     return token;
   } catch (error) {
-    console.error('Error login: ', error);
+    console.error('Error login: : ' + error.message);
     throw error;
   }
 }
@@ -184,7 +184,7 @@ async function updateOne(updateData) {
     const updatedUser = await repository.updateOne(userId, updateData);
     return updatedUser;
   } catch (error) {
-    console.error(error);
+    console.error('Error updating user: ' + error.message);
     throw error;
   }
 }
